@@ -15,6 +15,7 @@ import Decimal from 'decimal.js';
 
 interface BalanceCommandOptions extends BaseCommandOptions {
   id?: string;
+  path: string;
 }
 
 @SubCommand({
@@ -49,6 +50,7 @@ export class BalanceCommand extends BaseCommand {
     options?: BalanceCommandOptions,
   ): Promise<void> {
     try {
+      this.walletService.foundWallet(options.path);
       const address = this.walletService.getAddress();
 
       if (options.id) {
@@ -116,6 +118,15 @@ export class BalanceCommand extends BaseCommand {
     description: 'ID of the token',
   })
   parseId(val: string): string {
+    return val;
+  }
+
+  @Option({
+    flags: '-p, --path [walletPath]',
+    defaultValue: 'wallet.json',
+    description: 'wallet path',
+  })
+  parsePath(val: string): string {
     return val;
   }
 }

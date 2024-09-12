@@ -1,10 +1,12 @@
-import { SubCommand } from 'nest-commander';
+import {Option, SubCommand} from 'nest-commander';
 import { log, logerror } from 'src/common';
 import { BaseCommand, BaseCommandOptions } from '../base.command';
 import { ConfigService, WalletService } from 'src/providers';
 import { Inject } from '@nestjs/common';
 
-interface AddressCommandOptions extends BaseCommandOptions {}
+interface AddressCommandOptions extends BaseCommandOptions {
+  path: string,
+}
 
 @SubCommand({
   name: 'address',
@@ -25,11 +27,21 @@ export class AddressCommand extends BaseCommand {
     options?: AddressCommandOptions,
   ): Promise<void> {
     try {
+      this.walletService.foundWallet(options.path);
       const address = this.walletService.getAddress();
 
       log(`Your address is ${address}`);
     } catch (error) {
       logerror('Get address failed!', error);
     }
+  }
+
+  @Option({
+    flags: '-p, --path [walletPath]',
+    defaultValue: 'wallet.json',
+    description: 'wallet path',
+  })
+  parsePath(val: string): string {
+    return val;
   }
 }
