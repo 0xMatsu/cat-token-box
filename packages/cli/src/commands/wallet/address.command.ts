@@ -35,13 +35,4 @@ export class AddressCommand extends BaseCommand {
       logerror('Get address failed!', error);
     }
   }
-
-  @Option({
-    flags: '-p, --path [walletPath]',
-    defaultValue: 'wallet.json',
-    description: 'wallet path',
-  })
-  parsePath(val: string): string {
-    return val;
-  }
 }

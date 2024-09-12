@@ -55,9 +55,9 @@ export class WalletService {
     }
   }
 
-  loadWallet(): Wallet | null {
+  loadWallet(path: string): Wallet | null {
     const dataDir = this.configService.getDataDir();
-    const walletFile = join(dataDir, 'wallet.json');
+    const walletFile = join(dataDir, path);
     let walletString = null;
 
     try {
@@ -218,9 +218,9 @@ export class WalletService {
     }
   }
 
-  createWallet(wallet: Wallet): Error | null {
+  createWallet(wallet: Wallet, path: string): Error | null {
     const dataDir = this.configService.getDataDir();
-    const walletFile = join(dataDir, 'wallet.json');
+    const walletFile = join(dataDir, path);
     try {
       writeFileSync(walletFile, JSON.stringify(wallet, null, 2));
       this.wallet = wallet;

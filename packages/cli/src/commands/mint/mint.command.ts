@@ -28,7 +28,6 @@ import { calcTotalAmount, sendToken } from '../send/ft';
 import { pickLargeFeeUtxo } from '../send/pick';
 interface MintCommandOptions extends BoardcastCommandOptions {
   id: string;
-  path: string;
   merge: boolean;
   new?: number;
 }
@@ -276,14 +275,6 @@ export class MintCommand extends BoardcastCommand {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   parseMerge(val: string): boolean {
     return true;
-  }
-  @Option({
-    flags: '-p, --path [walletPath]',
-    defaultValue: 'wallet.json',
-    description: 'wallet path',
-  })
-  parsePath(val: string): string {
-    return val;
   }
   async getFeeUTXOs(address: btc.Address) {
     let feeUtxos = await getUtxos(

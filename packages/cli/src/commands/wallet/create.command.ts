@@ -8,7 +8,6 @@ import * as bip39 from 'bip39';
 
 interface CreateCommandOptions extends BaseCommandOptions {
   name: string;
-  path: string;
 }
 
 @SubCommand({
@@ -46,7 +45,7 @@ export class CreateCommand extends BaseCommand {
         mnemonic: bip39.generateMnemonic(),
       };
 
-      this.walletService.createWallet(wallet);
+      this.walletService.createWallet(wallet, options.path);
 
       console.log('Your wallet mnemonic is: ', wallet.mnemonic);
 
@@ -71,15 +70,6 @@ export class CreateCommand extends BaseCommand {
       process.exit(0);
     }
 
-    return val;
-  }
-
-  @Option({
-    flags: '-p, --path [walletPath]',
-    defaultValue: 'wallet.json',
-    description: 'wallet path',
-  })
-  parsePath(val: string): string {
     return val;
   }
 }

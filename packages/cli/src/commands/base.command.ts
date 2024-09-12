@@ -12,6 +12,7 @@ export interface BaseCommandOptions {
   rpcurl?: string;
   rpcusername?: string;
   rpcpassword?: string;
+  path: string;
 }
 
 export abstract class BaseCommand extends CommandRunner {
@@ -45,7 +46,7 @@ export abstract class BaseCommand extends CommandRunner {
     this.configService.mergeCliConfig(cliConfig);
 
     if (this.autoLoadWallet) {
-      const wallet = this.walletService.loadWallet();
+      const wallet = this.walletService.loadWallet(options.path);
 
       if (wallet === null) {
         return;
