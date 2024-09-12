@@ -256,9 +256,9 @@ export class WalletService {
     return true;
   }
 
-  foundWallet(): string | null {
+  foundWallet(path: string): string | null {
     const dataDir = this.configService.getDataDir();
-    const walletFile = join(dataDir, 'wallet.json');
+    const walletFile = join(dataDir, path);
     let walletString = null;
 
     try {

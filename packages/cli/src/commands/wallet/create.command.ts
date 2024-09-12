@@ -8,6 +8,7 @@ import * as bip39 from 'bip39';
 
 interface CreateCommandOptions extends BaseCommandOptions {
   name: string;
+  path: string;
 }
 
 @SubCommand({
@@ -29,7 +30,7 @@ export class CreateCommand extends BaseCommand {
     options?: CreateCommandOptions,
   ): Promise<void> {
     try {
-      const walletFile = this.walletService.foundWallet();
+      const walletFile = this.walletService.foundWallet(options.path);
       if (walletFile !== null) {
         logerror(`found an existing wallet: ${walletFile}`, new Error());
         return;
@@ -70,6 +71,15 @@ export class CreateCommand extends BaseCommand {
       process.exit(0);
     }
 
+    return val;
+  }
+
+  @Option({
+    flags: '-p, --path [walletPath]',
+    defaultValue: 'wallet.json',
+    description: 'wallet path',
+  })
+  parsePath(val: string): string {
     return val;
   }
 }

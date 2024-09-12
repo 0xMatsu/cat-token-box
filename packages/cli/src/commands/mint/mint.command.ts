@@ -28,6 +28,7 @@ import { calcTotalAmount, sendToken } from '../send/ft';
 import { pickLargeFeeUtxo } from '../send/pick';
 interface MintCommandOptions extends BoardcastCommandOptions {
   id: string;
+  path: string;
   merge: boolean;
   new?: number;
 }
@@ -54,6 +55,7 @@ export class MintCommand extends BoardcastCommand {
     options?: MintCommandOptions,
   ): Promise<void> {
     try {
+      this.walletService.foundWallet(options.path);
       if (options.id) {
         const address = this.walletService.getAddress();
         const token = await findTokenMetadataById(
@@ -275,7 +277,14 @@ export class MintCommand extends BoardcastCommand {
   parseMerge(val: string): boolean {
     return true;
   }
-
+  @Option({
+    flags: '-p, --path [walletPath]',
+    defaultValue: 'wallet.json',
+    description: 'wallet path',
+  })
+  parsePath(val: string): string {
+    return val;
+  }
   async getFeeUTXOs(address: btc.Address) {
     let feeUtxos = await getUtxos(
       this.configService,
