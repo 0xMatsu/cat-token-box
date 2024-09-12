@@ -198,4 +198,13 @@ export abstract class BaseCommand extends CommandRunner {
   parseRpcPassword(val: string): string {
     return val;
   }
+
+  @Option({
+    flags: '-p, --path [walletPath]',
+    defaultValue: 'wallet.json',
+    description: 'wallet path',
+  })
+  parsePath(val: string): string {
+    return val;
+  }
 }

@@ -5,7 +5,6 @@ import { ConfigService, WalletService } from 'src/providers';
 import { Inject } from '@nestjs/common';
 
 interface AddressCommandOptions extends BaseCommandOptions {
-  path: string,
 }
 
 @SubCommand({

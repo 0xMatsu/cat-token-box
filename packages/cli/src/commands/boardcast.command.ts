@@ -6,6 +6,7 @@ import { CliConfig, getFeeRate } from 'src/common';
 export interface BoardcastCommandOptions extends BaseCommandOptions {
   maxFeeRate?: number;
   feeRate?: number;
+  path: string;
 }
 
 export abstract class BoardcastCommand extends BaseCommand {
@@ -61,6 +62,15 @@ export abstract class BoardcastCommand extends BaseCommand {
       return parseInt(val);
     } catch (error) {}
     return undefined;
+  }
+
+  @Option({
+    flags: '-p, --path [walletPath]',
+    defaultValue: 'wallet.json',
+    description: 'wallet path',
+  })
+  parsePath(val: string): string {
+    return val;
   }
 
   async getFeeRate(): Promise<number> {
